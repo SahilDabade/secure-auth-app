@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Access Denied - Secure Auth</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            width: 450px;
+            max-width: 90%;
+            background: white;
+            padding: 45px;
+            text-align: center;
+            border-radius: 16px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+        }
+
+        .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 22px;
+            border-radius: 50%;
+            background: #fef2f2;
+            color: #b91c1c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        h1 {
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .back {
+            display: inline-block;
+            padding: 11px 22px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #374151;
+        }
+
+        .security {
+            margin-top: 22px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="icon">
+        🔒
+    </div>
+
+    <h1>Access Denied</h1>
+
+    <p>
+        You do not have permission to access this resource.
+        Please contact an administrator if you believe this is incorrect.
+    </p>
+
+    <a href="/login" class="back">
+        Back to Login
+    </a>
+
+    <div class="security">
+        Secure Auth • Role-Based Access Control
+    </div>
+
+</div>
+
+</body>
+</html>

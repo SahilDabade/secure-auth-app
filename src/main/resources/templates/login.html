@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Secure Auth - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1f2937;
+        }
+
+        .wrapper {
+            width: 900px;
+            max-width: 92%;
+            min-height: 540px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+        }
+
+        /* LEFT SIDE */
+
+        .info {
+            background: #111827;
+            color: white;
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 45px;
+        }
+
+        .brand span {
+            color: #9ca3af;
+        }
+
+        .info h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .info > p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 14px 0;
+            color: #e5e7eb;
+            font-size: 14px;
+        }
+
+        .feature-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* RIGHT SIDE */
+
+        .login-section {
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-section h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .message {
+            padding: 11px;
+            border-radius: 7px;
+            margin-bottom: 16px;
+            background: #f3f4f6;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        .success {
+            color: #047857;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            margin-bottom: 18px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #374151;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #111827;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #374151;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 22px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #111827;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .security-note {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 750px) {
+
+            .wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .info {
+                display: none;
+            }
+
+            .login-section {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- LEFT INFORMATION PANEL -->
+
+    <section class="info">
+
+        <div class="brand">
+            Secure Auth <span>Platform</span>
+        </div>
+
+        <h1>
+            Secure access.<br>
+            Protected identity.
+        </h1>
+
+        <p>
+            A security-focused authentication system built
+            with Spring Security, BCrypt and MySQL.
+        </p>
+
+        <div class="feature">
+            <div class="feature-icon">🔐</div>
+            <span>Secure authentication</span>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🔑</div>
+            <span>BCrypt password protection</span>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🛡️</div>
+            <span>Role-based access control</span>
+        </div>
+
+    </section>
+
+
+    <!-- LOGIN FORM -->
+
+    <section class="login-section">
+
+        <h2>Welcome back</h2>
+
+        <p class="subtitle">
+            Sign in to access your secure account.
+        </p>
+
+        <p class="message error"
+           th:if="${param.error}">
+            Invalid username or password.
+        </p>
+
+        <p class="message success"
+           th:if="${param.registered}">
+            Registration successful. Please login.
+        </p>
+
+        <p class="message success"
+           th:if="${param.logout}">
+            You have been logged out successfully.
+        </p>
+
+        <form th:action="@{/login}" method="post">
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+            <label>Username</label>
+
+            <input type="text"
+                   name="username"
+                   placeholder="Enter your username"
+                   required>
+
+            <label>Password</label>
+
+            <input type="password"
+                   name="password"
+                   placeholder="Enter your password"
+                   required>
+
+            <button type="submit">
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="register">
+            Don't have an account?
+            <a href="/register">Create an account</a>
+        </div>
+
+        <div class="security-note">
+            Protected authentication • Spring Security • MySQL
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>
